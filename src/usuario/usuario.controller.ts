@@ -9,12 +9,12 @@ export class UsuarioController {
 
   @Post()
   async criar(@Body() dadosDoUsuario: CriaUsuarioDTO) {
-    const novoUsuario = this.usuarioRepository.salvar(dadosDoUsuario);
-    return novoUsuario;
+    this.usuarioRepository.salvar(dadosDoUsuario);
+    return dadosDoUsuario;
   }
 
   @Get()
-  async listaTodos() {
+  async listarTodos() {
     return this.usuarioRepository.listarTodos();
   }
 }
