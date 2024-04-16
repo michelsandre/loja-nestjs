@@ -33,17 +33,17 @@ export class CriaProdutoDTO {
   @MaxLength(1000)
   descricao: string;
 
-  // @ValidateNested()
-  // @IsArray()
-  // @ArrayMinSize(3)
-  // @Type(() => CaracteristicaProdutoDTO)
-  // caracteristicas: CaracteristicaProdutoDTO[];
+  @ValidateNested()
+  @IsArray()
+  @ArrayMinSize(2)
+  @Type(() => CaracteristicaProdutoDTO)
+  caracteristicas: CaracteristicaProdutoDTO[];
 
-  // @ValidateNested()
-  // @IsArray()
-  // @ArrayMinSize(1)
-  // @Type(() => ImagemProdutoDTO)
-  // imagens: ImagemProdutoDTO[];
+  @ValidateNested()
+  @IsArray()
+  @ArrayMinSize(1)
+  @Type(() => ImagemProdutoDTO)
+  imagens: ImagemProdutoDTO[];
 
   @IsString()
   @IsNotEmpty()
