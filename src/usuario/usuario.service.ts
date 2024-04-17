@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsuarioEntity } from './usuario.entity';
 import { Repository } from 'typeorm';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
+import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -20,9 +21,9 @@ export class UsuarioService {
     return usuariosLista;
   }
 
-  async criaUsuario(usuario: UsuarioEntity) {
+  async criaUsuario(dadosDoUsuario: CriaUsuarioDTO) {
     const emailExiste = await this.usuarioRepository.findOne({
-      where: { email: usuario.email },
+      where: { email: dadosDoUsuario.email },
     });
 
     if (emailExiste)
@@ -31,7 +32,9 @@ export class UsuarioService {
         HttpStatus.BAD_REQUEST,
       );
 
-    const novoUsuario = await this.usuarioRepository.save(usuario);
+    const usuarioEntity = new UsuarioEntity();
+    Object.assign(usuarioEntity, dadosDoUsuario);
+    const novoUsuario = await this.usuarioRepository.save(usuarioEntity);
     return novoUsuario;
   }
 

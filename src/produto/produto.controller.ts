@@ -21,10 +21,7 @@ export class ProdutoController {
 
   @Post()
   async criar(@Body() dadosDoProduto: CriaProdutoDTO) {
-    const produto = new ProdutoEntity();
-    Object.assign(produto, dadosDoProduto);
-
-    const novoProduto = await this.produtoService.criaProduto(produto);
+    const novoProduto = await this.produtoService.criaProduto(dadosDoProduto);
     return novoProduto;
   }
 
