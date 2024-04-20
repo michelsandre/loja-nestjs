@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigService } from './config/postgres.config.service';
 import { ConfigModule } from '@nestjs/config';
 
+
 @Module({
   imports: [
     UsuarioModule,
@@ -19,5 +20,6 @@ import { ConfigModule } from '@nestjs/config';
   ],
   controllers: [],
   providers: [],
+  exports: []
 })
 export class AppModule {}
