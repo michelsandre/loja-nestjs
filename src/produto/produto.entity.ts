@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { ProdutoCaracteristica } from './produto-caracteristica.entity';
 import { ProdutoImagem } from './produto-imagem.entity';
+import { ItemPedidoEntity } from '../pedido/item-pedido.entity';
 
 @Entity({ name: 'produtos' })
 export class ProdutoEntity {
@@ -21,8 +22,8 @@ export class ProdutoEntity {
   @Column({ name: 'valor', nullable: false })
   valor: number;
 
-  @Column({ name: 'quantidade', nullable: false })
-  quantidade: number;
+  @Column({ name: 'quantidade_disponivel', nullable: false })
+  quantidadeDisponivel: number;
 
   @Column({ name: 'descricao', nullable: false })
   descricao: string;
@@ -45,6 +46,9 @@ export class ProdutoEntity {
     eager: true,
   })
   imagens: ProdutoImagem[];
+
+  @OneToMany(() => ItemPedidoEntity, (itemPedido) => itemPedido.produto)
+  itensPedido: ItemPedidoEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
