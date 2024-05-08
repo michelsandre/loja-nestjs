@@ -7,17 +7,13 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ProdutoRepository } from './produto.repository';
 import { CriaProdutoDTO } from './dto/CriaProduto.dto';
 import { ProdutoService } from './produto.service';
-import { ProdutoEntity } from './produto.entity';
+import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
 
 @Controller('produtos')
 export class ProdutoController {
-  constructor(
-    private produtoRepository: ProdutoRepository,
-    private produtoService: ProdutoService,
-  ) {}
+  constructor(private produtoService: ProdutoService) {}
 
   @Post()
   async criar(@Body() dadosDoProduto: CriaProdutoDTO) {
@@ -33,9 +29,9 @@ export class ProdutoController {
   @Put('/:id')
   async atualizaProduto(
     @Param('id') id: string,
-    @Body() produto: Partial<ProdutoEntity>,
+    @Body() novosDados: AtualizaProdutoDTO,
   ) {
-    await this.produtoService.atualizaProduto(id, produto);
+    await this.produtoService.atualizaProduto(id, novosDados);
     return {
       message: 'Produto atualizado com sucesso',
     };
