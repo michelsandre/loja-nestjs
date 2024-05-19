@@ -40,10 +40,11 @@ export class UsuarioController {
     @Param('id') id: string,
     @Body() novosDados: AtualizaUsuarioDTO,
   ) {
-    await this.usuarioService.atualizaUsuario(id, novosDados);
+    const usuario = await this.usuarioService.atualizaUsuario(id, novosDados);
 
     return {
       message: 'Usuário atualizado com sucesso',
+      usuario,
     };
   }
 

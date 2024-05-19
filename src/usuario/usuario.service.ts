@@ -1,9 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsuarioEntity } from './usuario.entity';
 import { Repository } from 'typeorm';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
+import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -33,13 +39,19 @@ export class UsuarioService {
       );
 
     const usuarioEntity = new UsuarioEntity();
-    Object.assign(usuarioEntity, dadosDoUsuario);
+    Object.assign(usuarioEntity, dadosDoUsuario as UsuarioEntity);
     const novoUsuario = await this.usuarioRepository.save(usuarioEntity);
     return novoUsuario;
   }
 
-  async atualizaUsuario(id: string, usuario: Partial<UsuarioEntity>) {
-    await this.usuarioRepository.update(id, usuario);
+  async atualizaUsuario(id: string, novosDados: AtualizaUsuarioDTO) {
+    const usuario = await this.usuarioRepository.findOneBy({ id });
+
+    if (usuario === null) throw new NotFoundException('Usuário não encontrado');
+
+    Object.assign(usuario, novosDados as UsuarioEntity);
+
+    return await this.usuarioRepository.save(usuario);
   }
 
   async deletaUsuario(id: string) {
